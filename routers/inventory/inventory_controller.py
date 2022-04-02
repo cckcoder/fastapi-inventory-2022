@@ -18,3 +18,8 @@ async def create_inventory(db: Session, requset: InventoryBase):
     db.commit()
     db.refresh(new_inventory)
     return new_inventory
+
+
+async def get_all_inventory(db: Session):
+    inventory = db.query(DbInventory).order_by(DbInventory.description.desc()).all()
+    return inventory
