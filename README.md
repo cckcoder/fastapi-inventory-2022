@@ -1,12 +1,16 @@
 # FastAPI Inventory workshow 2022
 
-## Python ENV
+## Config and Setup tools
+### Python ENV
 * config python env
     `python -m venv env`
 * Activate env
     `.\env\Scripts\activate`
 
-## Libraries
+### How to run server
+`uvicorn main:app --reload`
+
+### Libraries
 * fastapi `pip install fastapi`
 * uvicorn `pip install "uvicorn[standard]"`
 * sqlalchemy `pip install sqlalchemy`
