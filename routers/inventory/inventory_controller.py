@@ -1,4 +1,3 @@
-from pprint import pprint
 from fastapi import status, HTTPException
 from fastapi.responses import JSONResponse
 
@@ -52,10 +51,10 @@ async def deleted_inventory(db: Session, inventory_id: int):
 
 async def update_inventory(db: Session, inventory_id: int, request: InventoryBase):
     inventory = db.query(DbInventory).filter(DbInventory.id == inventory_id).first()
-    inventory.description=request.description
-    inventory.image_name=request.image_name
-    inventory.price=request.price
-    inventory.stock=request.stock
+    inventory.description = request.description
+    inventory.image_name = request.image_name
+    inventory.price = request.price
+    inventory.stock = request.stock
     db.commit()
     db.refresh(inventory)
     return inventory

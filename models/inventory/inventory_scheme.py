@@ -9,8 +9,8 @@ class InventoryBase(BaseModel):
     price: Decimal
     stock: int
 
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     orm_mode = True
 
 
 class InventoryDisplayBase(BaseModel):

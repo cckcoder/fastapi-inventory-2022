@@ -20,13 +20,15 @@ async def inventory(inventory_id: int, db: Session = Depends(get_db)):
     return await inventory_controller.inventory_by_id(db, inventory_id)
 
 
-@router.post("/", response_model=InventoryBase)
+@router.post("/", response_model=InventoryDisplayBase)
 async def create_inventory(request: InventoryBase, db: Session = Depends(get_db)):
     return await inventory_controller.create_inventory(db, request)
 
 
 @router.put("/{inventory_id}", response_model=InventoryDisplayBase)
-async def update_inventory(inventory_id: int, request: InventoryBase, db: Session = Depends(get_db)):
+async def update_inventory(
+    inventory_id: int, request: InventoryBase, db: Session = Depends(get_db)
+):
     return await inventory_controller.update_inventory(db, inventory_id, request)
 
 
