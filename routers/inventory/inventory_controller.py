@@ -1,4 +1,6 @@
-from fastapi import status
+from pprint import pprint
+from fastapi import status, HTTPException
+from fastapi.responses import JSONResponse
 
 from sqlalchemy.orm import Session
 
@@ -22,4 +24,38 @@ async def create_inventory(db: Session, requset: InventoryBase):
 
 async def get_all_inventory(db: Session):
     inventory = db.query(DbInventory).order_by(DbInventory.description.desc()).all()
+    return inventory
+
+
+async def inventory_by_id(db: Session, inventory_id: int):
+    inventory = db.query(DbInventory).filter(DbInventory.id == inventory_id).first()
+    return inventory
+
+
+async def deleted_inventory(db: Session, inventory_id: int):
+    inventory = db.query(DbInventory).filter(DbInventory.id == inventory_id).first()
+    if inventory is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Inventory with id {inventory_id} not found",
+        )
+    else:
+        db.delete(inventory)
+        db.commit()
+        return JSONResponse(
+            content={
+                "detail": f"Inventory with id {inventory_id} deleted successfully"
+            },
+            status_code=status.HTTP_200_OK,
+        )
+
+
+async def update_inventory(db: Session, inventory_id: int, request: InventoryBase):
+    inventory = db.query(DbInventory).filter(DbInventory.id == inventory_id).first()
+    inventory.description=request.description
+    inventory.image_name=request.image_name
+    inventory.price=request.price
+    inventory.stock=request.stock
+    db.commit()
+    db.refresh(inventory)
     return inventory

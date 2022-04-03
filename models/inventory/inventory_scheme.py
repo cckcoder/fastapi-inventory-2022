@@ -14,6 +14,7 @@ class InventoryBase(BaseModel):
 
 
 class InventoryDisplayBase(BaseModel):
+    id: int
     description: str
     image_name: str
     price: Decimal

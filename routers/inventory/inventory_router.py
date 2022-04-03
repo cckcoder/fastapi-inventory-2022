@@ -15,9 +15,9 @@ async def all_inventory(db: Session = Depends(get_db)):
     return await inventory_controller.get_all_inventory(db)
 
 
-@router.get("/{inventory_id}")
-async def inventory(inventory_id: int):
-    return {"msg": f"inventory id: {inventory_id}"}
+@router.get("/{inventory_id}", response_model=InventoryDisplayBase)
+async def inventory(inventory_id: int, db: Session = Depends(get_db)):
+    return await inventory_controller.inventory_by_id(db, inventory_id)
 
 
 @router.post("/", response_model=InventoryBase)
@@ -25,11 +25,11 @@ async def create_inventory(request: InventoryBase, db: Session = Depends(get_db)
     return await inventory_controller.create_inventory(db, request)
 
 
-@router.put("/{inventory_id}")
-async def update_inventory(inventory_id: int):
-    return {"msg": f"update id: {inventory_id}"}
+@router.put("/{inventory_id}", response_model=InventoryDisplayBase)
+async def update_inventory(inventory_id: int, request: InventoryBase, db: Session = Depends(get_db)):
+    return await inventory_controller.update_inventory(db, inventory_id, request)
 
 
 @router.delete("/{inventory_id}")
-async def delete_inventory(inventory_id: int):
-    return {"msg": f"delete id: {inventory_id}"}
+async def delete_inventory(inventory_id: int, db: Session = Depends(get_db)):
+    return await inventory_controller.deleted_inventory(db, inventory_id)
