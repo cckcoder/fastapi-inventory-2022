@@ -18,5 +18,6 @@
 * psycopg2 `pip install psycopg2`
 * passlib `pip install passlib`
 * bcrypt `pip install bcrypt`
+* python-multipart `pip install python-multipart`
 ## Sqlalchemy
 * [Docs](https://docs.sqlalchemy.org/en/14/orm/quickstart.html)

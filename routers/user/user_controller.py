@@ -19,21 +19,21 @@ async def update_user(db: Session, user_id: int, request: UserBase):
     user = db.query(DbUser).filter(DbUser.id == user_id).first()
     if user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND
-            ,detail=f"user with {user_id} not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"user with {user_id} not found",
         )
     else:
         user.update(
             {
                 DbUser.username: request.username,
-                DbUser.password: Hash.bcrypt(request.password)
+                DbUser.password: Hash.bcrypt(request.password),
             }
         )
         db.commit()
         return JSONResponse(
-            status_code=status.HTTP_200_OK
-            ,content={"detail": f"user id {user_id} updated successfully"}
-        ) 
+            status_code=status.HTTP_200_OK,
+            content={"detail": f"user id {user_id} updated successfully"},
+        )
 
 
 async def get_all_user(db: Session):
