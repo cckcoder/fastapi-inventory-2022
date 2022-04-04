@@ -19,5 +19,10 @@
 * passlib `pip install passlib`
 * bcrypt `pip install bcrypt`
 * python-multipart `pip install python-multipart`
+* python-jose `pip install python-jose`
+    * [Ref](https://github.com/mpdavis/python-jose)
 ## Sqlalchemy
 * [Docs](https://docs.sqlalchemy.org/en/14/orm/quickstart.html)
+
+## Generate key by openssl
+* cli `openssl rand -hex 32`

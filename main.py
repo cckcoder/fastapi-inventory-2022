@@ -5,9 +5,11 @@ from models.user import user_model
 
 from routers.inventory import inventory_router
 from routers.user import user_router
+from routers.authen import authen_router
 
 app = FastAPI()
 
+app.include_router(authen_router.router)
 app.include_router(inventory_router.router)
 app.include_router(user_router.router)
 
