@@ -18,6 +18,9 @@
 * psycopg2 `pip install psycopg2`
 * python-multipart `pip install python-multipart`
 
+### CORS 
+* [Ref](https://fastapi.tiangolo.com/tutorial/cors/)
+
 ### Oauth2 [Ref](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/)
 * python-jose `pip install python-jose`
     * [Ref](https://github.com/mpdavis/python-jose)

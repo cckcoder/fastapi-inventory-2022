@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from models.database import engine, Base
 from models.user import user_model
@@ -8,6 +9,14 @@ from routers.user import user_router
 from routers.authen import authen_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(authen_router.router)
 app.include_router(inventory_router.router)
