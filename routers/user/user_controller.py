@@ -1,3 +1,4 @@
+from pprint import pprint
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm.session import Session
@@ -16,8 +17,8 @@ async def create_user(db: Session, request: UserBase):
 
 
 async def update_user(db: Session, user_id: int, request: UserBase):
-    user = db.query(DbUser).filter(DbUser.id == user_id).first()
-    if user is None:
+    user = db.query(DbUser).filter(DbUser.id == user_id)
+    if user.first() is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"user with {user_id} not found",
