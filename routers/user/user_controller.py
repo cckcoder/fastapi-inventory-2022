@@ -9,11 +9,18 @@ from models.user.user_model import DbUser
 
 
 async def create_user(db: Session, request: UserBase):
-    new_user = DbUser(username=request.username, password=Hash.bcrypt(request.password))
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+    user_exist = await get_user_by_username(db, request.username)
+    if user_exist:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User already registered"
+        )
+    else:
+        new_user = DbUser(username=request.username, password=Hash.bcrypt(request.password))
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return new_user
 
 
 async def update_user(db: Session, user_id: int, request: UserBase):
@@ -39,6 +46,10 @@ async def update_user(db: Session, user_id: int, request: UserBase):
 
 async def get_all_user(db: Session):
     return db.query(DbUser).order_by(DbUser.created_date.desc()).all()
+
+
+async def get_user_by_username(db: Session, username: str):
+    return db.query(DbUser).filter(DbUser.username == username).first()
 
 
 async def get_user_by_id(db: Session, user_id: int):
