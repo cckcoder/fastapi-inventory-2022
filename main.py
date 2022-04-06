@@ -33,4 +33,4 @@ Base.metadata.create_all(engine)
 # user_model.Base.metadata.create_all(engine)
 
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+#app.mount("/static", StaticFiles(directory="static"), name="static")
