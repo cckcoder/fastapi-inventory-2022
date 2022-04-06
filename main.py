@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from models.database import engine, Base
 from models.user import user_model
@@ -30,3 +31,6 @@ def hello_world():
 
 Base.metadata.create_all(engine)
 # user_model.Base.metadata.create_all(engine)
+
+
+app.mount("/static", StaticFiles(directory="static"), name="static")

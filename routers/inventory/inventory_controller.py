@@ -10,7 +10,6 @@ from models.inventory.inventory_scheme import InventoryBase
 async def create_inventory(db: Session, requset: InventoryBase):
     new_inventory = DbInventory(
         description=requset.description,
-        image_name=requset.image_name,
         price=requset.price,
         stock=requset.stock,
     )
@@ -22,12 +21,17 @@ async def create_inventory(db: Session, requset: InventoryBase):
 
 
 async def get_all_inventory(db: Session):
-    inventory = db.query(DbInventory).order_by(DbInventory.description.desc()).all()
+    inventory = db.query(DbInventory).order_by(DbInventory.id.desc()).all()
     return inventory
 
 
 async def inventory_by_id(db: Session, inventory_id: int):
     inventory = db.query(DbInventory).filter(DbInventory.id == inventory_id).first()
+    if inventory is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Inventory with id {inventory_id} not found",
+        )
     return inventory
 
 
@@ -52,7 +56,6 @@ async def deleted_inventory(db: Session, inventory_id: int):
 async def update_inventory(db: Session, inventory_id: int, request: InventoryBase):
     inventory = db.query(DbInventory).filter(DbInventory.id == inventory_id).first()
     inventory.description = request.description
-    inventory.image_name = request.image_name
     inventory.price = request.price
     inventory.stock = request.stock
     db.commit()

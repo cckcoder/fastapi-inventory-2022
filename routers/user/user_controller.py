@@ -12,11 +12,12 @@ async def create_user(db: Session, request: UserBase):
     user_exist = await get_user_by_username(db, request.username)
     if user_exist:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User already registered"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="User already registered"
         )
     else:
-        new_user = DbUser(username=request.username, password=Hash.bcrypt(request.password))
+        new_user = DbUser(
+            username=request.username, password=Hash.bcrypt(request.password)
+        )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)

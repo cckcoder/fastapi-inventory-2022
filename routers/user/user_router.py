@@ -12,12 +12,18 @@ from utils.oauth2 import access_user_token
 router = APIRouter(prefix="/user", tags=["user"])
 
 
-@router.get("/", response_model=List[UserDisplayBase], dependencies=[Depends(access_user_token)])
+@router.get(
+    "/", response_model=List[UserDisplayBase], dependencies=[Depends(access_user_token)]
+)
 async def all_user(db: Session = Depends(get_db)):
     return await user_controller.get_all_user(db)
 
 
-@router.get("/{user_id}", response_model=UserDisplayBase, dependencies=[Depends(access_user_token)] )
+@router.get(
+    "/{user_id}",
+    response_model=UserDisplayBase,
+    dependencies=[Depends(access_user_token)],
+)
 async def user_by_id(user_id: int, db: Session = Depends(get_db)):
     return await user_controller.get_user_by_id(db, user_id)
 
@@ -27,7 +33,9 @@ async def register_user(request: UserBase, db: Session = Depends(get_db)):
     return await user_controller.create_user(db, request)
 
 
-@router.put("/{user_id}", response_model=UserBase, dependencies=[Depends(access_user_token)])
+@router.put(
+    "/{user_id}", response_model=UserBase, dependencies=[Depends(access_user_token)]
+)
 async def updated_user(user_id: int, request: UserBase, db: Session = Depends(get_db)):
     return await user_controller.update_user(db, user_id, request)
 
