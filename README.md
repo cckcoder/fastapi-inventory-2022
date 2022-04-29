@@ -14,6 +14,7 @@
 * fastapi `pip install fastapi`
 * uvicorn `pip install "uvicorn[standard]"`
 * sqlalchemy `pip install sqlalchemy`
+* python-jose `pip install python-jose`
 * decouple `pip install python-decouple`
 * psycopg2 `pip install psycopg2`
 * python-multipart `pip install python-multipart`

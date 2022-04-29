@@ -8,8 +8,7 @@ from sqlalchemy.orm.session import Session
 from models.database import get_db
 from models.user import user_model
 
-from jose import jwt
-from jose import JWSError
+from jose import JWTError, jwt
 
 from decouple import config
 
@@ -28,16 +27,14 @@ async def create_access_token(data: dict, expire_delta: Optional[timedelta] = No
     return encode_jwt
 
 
-async def access_user_token(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
-):
+async def access_user_token(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
-            raise await create_access_token()
-    except JWSError:
-        raise await create_access_token()
+            raise await credentials_exception()
+    except JWTError:
+        raise await credentials_exception()
 
 
 async def generate_expire_date(expire_delta: Optional[timedelta] = None):

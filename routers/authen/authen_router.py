@@ -20,11 +20,11 @@ async def login(
     user = db.query(DbUser).filter(DbUser.username == request.username).first()
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Invalid credentials"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )
     elif not Hash.verify(user.password, request.password):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Incorrect password"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password"
         )
     else:
         access_token = await create_access_token(data={"sub": user.username})
